@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Page Not Found | ZORO Wear</title>
+  <meta name="description" content="Oops! This page doesn't exist. Head back to ZORO Wear's home to explore our premium streetwear collection." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Floating animated shapes */
+    .shape-404 {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: floatShape 6s ease-in-out infinite alternate;
+    }
+    @keyframes floatShape {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 0.4; }
+      100% { transform: translateY(-40px) rotate(45deg); opacity: 0.15; }
+    }
+    .error-code {
+      font-size: clamp(8rem, 20vw, 14rem);
+      font-family: var(--font-display);
+      font-weight: 800;
+      background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 0.9;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    .error-page-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--primary-color);
+      position: relative;
+      overflow: hidden;
+    }
+    .error-content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 80px 40px;
+      position: relative;
+      z-index: 1;
+    }
+    .error-tagline {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gold-color);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .error-title {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--white);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .error-desc {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.6);
+      max-width: 480px;
+      line-height: 1.7;
+      margin-bottom: 50px;
+    }
+    .error-ctas {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .error-btn-primary {
+      background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%);
+      color: #0F0F0F;
+      padding: 16px 40px;
+      border-radius: 50px;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 10px 30px rgba(212,175,55,0.3);
+    }
+    .error-btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(212,175,55,0.4);
+    }
+    .error-btn-outline {
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--white);
+      padding: 16px 40px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+    .error-btn-outline:hover {
+      background-color: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.4);
+    }
+    .error-links-row {
+      margin-top: 60px;
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .error-links-row a {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .error-links-row a:hover { color: var(--gold-color); }
+    .error-brand {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: rgba(255,255,255,0.15);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Floating background shapes -->
+<div class="error-page-wrapper">
+  <div class="shape-404" style="width:400px;height:400px;background:rgba(212,175,55,0.04);top:-100px;right:-100px;animation-duration:7s;"></div>
+  <div class="shape-404" style="width:250px;height:250px;background:rgba(255,255,255,0.03);bottom:80px;left:-60px;animation-duration:9s;animation-delay:2s;"></div>
+  <div class="shape-404" style="width:120px;height:120px;background:rgba(212,175,55,0.06);top:30%;right:10%;animation-duration:5s;animation-delay:1s;"></div>
+  <div class="shape-404" style="width:60px;height:60px;background:rgba(212,175,55,0.1);bottom:20%;left:15%;animation-duration:8s;animation-delay:3s;"></div>
+
+  <div class="error-content">
+    <!-- Nav Logo -->
+    <a href="index.html" style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:var(--white);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:60px;">
+      ZORO<span style="color:var(--gold-color);">.</span>
+    </a>
+
+    <div class="error-tagline">Error 404</div>
+
+    <div class="error-code">404</div>
+
+    <div class="error-title">You've Stepped Off the Runway</div>
+
+    <p class="error-desc">
+      This page doesn't exist — or maybe it's just out of stock. Either way, let's get you back to the good stuff.
+    </p>
+
+    <div class="error-ctas">
+      <a href="index.html" class="error-btn-primary">Back to Home</a>
+      <a href="shop.html" class="error-btn-outline">Shop Collection</a>
+    </div>
+
+    <div class="error-links-row">
+      <a href="categories.html">Categories</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://wa.me/919487980704" target="_blank">WhatsApp Us</a>
+    </div>
+  </div>
+
+  <div class="error-brand">ZORO WEAR</div>
+</div>
+
+<script src="products.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

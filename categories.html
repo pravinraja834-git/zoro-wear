@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Categories — ZORO Wear | Shop by Style</title>
+  <meta name="description" content="Explore ZORO Wear categories — Oversized T-Shirts, Football Jerseys, Collar Tees, Track Pants, and Shorts. Find your perfect streetwear style." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .big-cat-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+    }
+    .big-cat-card { position: relative; overflow: hidden; border-radius: var(--border-radius-md); cursor: pointer; }
+    .big-cat-card:nth-child(1) { grid-column: span 7; height: 580px; }
+    .big-cat-card:nth-child(2) { grid-column: span 5; height: 580px; }
+    .big-cat-card:nth-child(3) { grid-column: span 4; height: 420px; }
+    .big-cat-card:nth-child(4) { grid-column: span 4; height: 420px; }
+    .big-cat-card:nth-child(5) { grid-column: span 4; height: 420px; }
+    @media(max-width:1100px) {
+      .big-cat-card:nth-child(1) { grid-column: span 12; height: 480px; }
+      .big-cat-card:nth-child(2) { grid-column: span 12; height: 400px; }
+      .big-cat-card:nth-child(3), .big-cat-card:nth-child(4) { grid-column: span 6; }
+      .big-cat-card:nth-child(5) { grid-column: span 12; }
+    }
+    @media(max-width:600px) {
+      .big-cat-card:nth-child(1),
+      .big-cat-card:nth-child(2),
+      .big-cat-card:nth-child(3),
+      .big-cat-card:nth-child(4),
+      .big-cat-card:nth-child(5) { grid-column: span 12; height: 360px; }
+    }
+    .big-cat-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    }
+    .big-cat-card:hover img { transform: scale(1.07); }
+    .big-cat-overlay {
+      position: absolute; bottom: 0; left: 0; width: 100%;
+      background: linear-gradient(to top, rgba(15,15,15,0.92) 0%, transparent 70%);
+      padding: 50px 40px 40px;
+    }
+    .big-cat-label {
+      font-size: 0.7rem; font-weight: 700; color: var(--gold-color);
+      text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 10px;
+    }
+    .big-cat-title {
+      font-family: var(--font-display); font-size: clamp(1.5rem,3vw,2.2rem);
+      font-weight: 700; color: var(--white); text-transform: uppercase;
+      line-height: 1.2; margin-bottom: 8px;
+    }
+    .big-cat-count {
+      color: rgba(255,255,255,0.5); font-size: 0.8rem; letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 20px;
+    }
+    .big-cat-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--white); font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .big-cat-cta svg { transition: transform 0.2s; }
+    .big-cat-card:hover .big-cat-cta { color: var(--gold-color); border-color: var(--gold-color); }
+    .big-cat-card:hover .big-cat-cta svg { transform: translateX(5px); }
+
+    /* Feature strip */
+    .cat-feature-strip {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 1px; background: var(--border-color);
+      border: 1px solid var(--border-color); border-radius: var(--border-radius-md);
+      overflow: hidden; margin-top: 80px;
+    }
+    .cat-feature-item {
+      background: var(--white); padding: 40px 30px;
+      display: flex; align-items: flex-start; gap: 20px;
+    }
+    @media(max-width:768px) {
+      .cat-feature-strip { grid-template-columns: 1fr; }
+    }
+    .cat-feature-icon {
+      width: 48px; height: 48px; flex-shrink: 0;
+      background: var(--light-gray); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cat-feature-icon svg { fill: none; stroke: var(--gold-color); stroke-width: 1.8; }
+  </style>
+</head>
+<body>
+
+<div id="preloader">
+  <div class="preloader-logo"><span>Z</span><span>O</span><span>R</span><span>O</span></div>
+  <div class="preloader-progress-bar"><div class="preloader-progress-fill"></div></div>
+  <div class="preloader-percentage">0%</div>
+</div>
+<div class="scroll-progress-container"><div class="scroll-progress-bar"></div></div>
+
+<div class="announcement-bar">🚚 Free Delivery above ₹999 &nbsp;|&nbsp; ✨ Use code ZORO20 for 20% OFF</div>
+
+<header class="navbar-container scrolled">
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <img src="./images/logo.jpeg" alt="ZORO Wear Logo" class="logo">
+      ZORO<span style="color:var(--gold-color);">.</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="categories.html" class="active">Categories</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="nav-action-btn" onclick="openWishDrawer()" aria-label="Wishlist">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        <span class="nav-badge wish-badge" style="display:none">0</span>
+      </button>
+      <button class="nav-action-btn" onclick="openCartDrawer()" aria-label="Cart">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="nav-badge cart-badge" style="display:none">0</span>
+      </button>
+      <button class="hamburger-menu" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+
+<nav class="mobile-nav">
+  <a href="index.html">Home</a><a href="shop.html">Shop</a>
+  <a href="categories.html">Categories</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+</nav>
+
+<!-- Page Header -->
+<section style="background:var(--primary-color);padding:80px 40px 60px;text-align:center;">
+  <span class="section-subtitle" style="color:var(--gold-color);display:block;margin-bottom:12px;">Shop by Style</span>
+  <h1 style="color:var(--white);font-size:clamp(2.5rem,5vw,4rem);font-family:var(--font-display);text-transform:uppercase;">Categories</h1>
+  <p style="color:rgba(255,255,255,0.6);margin-top:15px;max-width:500px;margin-inline:auto;font-size:0.95rem;line-height:1.6;">Explore our curated collections and find the perfect piece for every mood and occasion.</p>
+</section>
+
+<!-- Big Category Mosaic -->
+<main style="max-width:1400px;margin:0 auto;padding:80px 40px 120px;">
+  <div class="big-cat-grid">
+
+    <!-- Oversized T-Shirts -->
+    <a href="shop.html?category=Oversized+T-Shirts" class="big-cat-card reveal reveal-fade-up">
+      <img src="./images/oversize-1.jpeg" alt="Oversized T-Shirts" loading="lazy" />
+      <div class="big-cat-overlay">
+        <div class="big-cat-label">Category 01</div>
+        <div class="big-cat-title">Oversized<br>T-Shirts</div>
+        <div class="big-cat-count">5 Products · From ₹399</div>
+        <span class="big-cat-cta">Shop Now <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </div>
+    </a>
+
+    <!-- Football Jerseys -->
+    <a href="shop.html?category=Football+Jerseys" class="big-cat-card reveal reveal-fade-right">
+      <img src="./images/jersey-1.jpeg" alt="Football Jerseys" loading="lazy" />
+      <div class="big-cat-overlay">
+        <div class="big-cat-label">Category 02</div>
+        <div class="big-cat-title">Football<br>Jerseys</div>
+        <div class="big-cat-count">2 Products · From ₹249</div>
+        <span class="big-cat-cta">Shop Now <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </div>
+    </a>
+
+    <!-- Collar T-Shirts -->
+    <a href="shop.html?category=Collar+T-Shirts" class="big-cat-card reveal reveal-fade-up" data-delay="50">
+      <img src="./images/collared" alt="Collar T-Shirts" loading="lazy" />
+      <div class="big-cat-overlay">
+        <div class="big-cat-label">Category 03</div>
+        <div class="big-cat-title">Collar<br>T-Shirts</div>
+        <div class="big-cat-count">2 Products · From ₹249</div>
+        <span class="big-cat-cta">Shop Now <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </div>
+    </a>
+
+    <!-- Track Pants -->
+    <a href="shop.html?category=Track+Pants" class="big-cat-card reveal reveal-fade-up" data-delay="100">
+      <img src="./images/track-1.jpeg" alt="Track Pants" loading="lazy" />
+      <div class="big-cat-overlay">
+        <div class="big-cat-label">Category 04</div>
+        <div class="big-cat-title">Track<br>Pants</div>
+        <div class="big-cat-count">1 Product · From ₹249</div>
+        <span class="big-cat-cta">Shop Now <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </div>
+    </a>
+
+    <!-- Shorts -->
+    <a href="shop.html?category=Shorts" class="big-cat-card reveal reveal-fade-up" data-delay="150">
+      <img src="./images/shorts-1.jpeg" alt="Shorts" loading="lazy" />
+      <div class="big-cat-overlay">
+        <div class="big-cat-label">Category 05</div>
+        <div class="big-cat-title">Shorts</div>
+        <div class="big-cat-count">1 Product · From ₹199</div>
+        <span class="big-cat-cta">Shop Now <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Feature Strip -->
+  <div class="cat-feature-strip reveal reveal-fade-up">
+    <div class="cat-feature-item">
+      <div class="cat-feature-icon"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+      <div>
+        <h3 style="font-size:1rem;text-transform:uppercase;margin-bottom:8px;">Crafted to Last</h3>
+        <p style="font-size:0.85rem;line-height:1.6;color:var(--text-light);">Every piece uses 240 GSM premium fabric, pre-shrunk and silicone washed for lasting comfort and shape retention.</p>
+      </div>
+    </div>
+    <div class="cat-feature-item">
+      <div class="cat-feature-icon"><svg viewBox="0 0 24 24" width="24" height="24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+      <div>
+        <h3 style="font-size:1rem;text-transform:uppercase;margin-bottom:8px;">Pan-India Shipping</h3>
+        <p style="font-size:0.85rem;line-height:1.6;color:var(--text-light);">Delivered anywhere in India within 3–5 business days. Free shipping on orders above ₹999.</p>
+      </div>
+    </div>
+    <div class="cat-feature-item">
+      <div class="cat-feature-icon"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15"/><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z"/></svg></div>
+      <div>
+        <h3 style="font-size:1rem;text-transform:uppercase;margin-bottom:8px;">WhatsApp Ordering</h3>
+        <p style="font-size:0.85rem;line-height:1.6;color:var(--text-light);">Simple, direct, and personal. Click Buy Now, fill your details, and confirm via WhatsApp in seconds.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Browse All CTA -->
+  <div style="text-align:center;margin-top:80px;" class="reveal reveal-zoom-in">
+    <h2 style="font-size:clamp(1.8rem,3vw,2.5rem);text-transform:uppercase;margin-bottom:20px;">Can't Decide?</h2>
+    <p style="color:var(--text-light);max-width:500px;margin:0 auto 30px;line-height:1.6;">Browse our entire collection and filter by your preferences — all in one place.</p>
+    <a href="shop.html" class="btn btn-dark">Browse All Products</a>
+  </div>
+</main>
+
+<!-- Newsletter -->
+<section class="newsletter-section">
+  <div class="newsletter-card reveal reveal-zoom-in">
+    <span class="section-subtitle">Stay in the Loop</span>
+    <h2>Get Exclusive Drops First</h2>
+    <p>Subscribe for early access to new collections, flash sales, and styling tips.</p>
+    <form class="newsletter-form" id="newsletter-form">
+      <input type="email" class="newsletter-input" placeholder="Enter your email address" required />
+      <button type="submit" class="newsletter-btn">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col footer-about">
+      <div class="footer-logo">ZORO<span style="color:var(--gold-color);">.</span></div>
+      <p>Premium oversized streetwear built for those who dare to dress different.</p>
+      <div class="footer-socials">
+        <a href="https://instagram.com/zoro_wear" target="_blank" class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        <a href="https://wa.me/919487980704" target="_blank" class="social-link" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.507 3.934 1.399 5.61L0 24l6.554-1.376A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.805 9.805 0 01-5.032-1.387l-.36-.214-3.889.816.825-3.773-.235-.375A9.81 9.81 0 012.182 12c0-5.423 4.414-9.818 9.818-9.818 5.423 0 9.818 4.395 9.818 9.818 0 5.424-4.395 9.818-9.818 9.818z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col"><h3>Quick Links</h3><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop All</a></li><li><a href="categories.html">Categories</a></li><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h3>Categories</h3><ul class="footer-links"><li><a href="shop.html?category=Oversized+T-Shirts">Oversized T-Shirts</a></li><li><a href="shop.html?category=Football+Jerseys">Football Jerseys</a></li><li><a href="shop.html?category=Collar+T-Shirts">Collar T-Shirts</a></li><li><a href="shop.html?category=Track+Pants">Track Pants</a></li><li><a href="shop.html?category=Shorts">Shorts</a></li></ul></div>
+    <div class="footer-col"><h3>Contact</h3><ul class="footer-contact-details"><li><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.62 2 2 0 015.08 5h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 12a16 16 0 006.29 6.29l1.06-1.06a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 19.73v-.01-2.8z"/></svg><span>+91 9487980704</span></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 ZORO Wear. All rights reserved.</p>
+    <div class="footer-bottom-links"><a href="#">Privacy Policy</a><a href="#">Return Policy</a></div>
+  </div>
+</footer>
+
+<div class="drawer-overlay" id="drawer-overlay"></div>
+<div class="drawer" id="cart-drawer" role="dialog"><div class="drawer-header"><div class="drawer-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Your Cart</div><button class="close-drawer-btn" onclick="closeCartDrawer()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="drawer-body" id="cart-drawer-body"></div><div id="cart-drawer-footer" style="display:none;" class="drawer-footer"></div></div>
+<div class="drawer" id="wish-drawer" role="dialog"><div class="drawer-header"><div class="drawer-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Wishlist</div><button class="close-drawer-btn" onclick="closeWishDrawer()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="drawer-body" id="wish-drawer-body"></div></div>
+<div class="modal-overlay" id="quickview-modal" role="dialog"><div class="modal-wrapper"><button class="close-modal-btn" onclick="closeQuickView()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><div id="quickview-content"></div></div></div>
+<div class="modal-overlay" id="order-modal" role="dialog"><div class="modal-wrapper" style="max-width:650px;"><button class="close-modal-btn" onclick="closeOrderModal()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><div id="order-modal-content"></div></div></div>
+
+<div class="floating-actions-container">
+  <a href="https://wa.me/919487980704" target="_blank" class="floating-btn floating-whatsapp" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.507 3.934 1.399 5.61L0 24l6.554-1.376A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.805 9.805 0 01-5.032-1.387l-.36-.214-3.889.816.825-3.773-.235-.375A9.81 9.81 0 012.182 12c0-5.423 4.414-9.818 9.818-9.818 5.423 0 9.818 4.395 9.818 9.818 0 5.424-4.395 9.818-9.818 9.818z"/></svg></a>
+  <a href="https://instagram.com/zoro_wear" target="_blank" class="floating-btn floating-instagram" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+  <button class="floating-btn floating-back-top" id="back-top-btn" aria-label="Back to top"><svg viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></button>
+</div>
+
+<script src="products.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
