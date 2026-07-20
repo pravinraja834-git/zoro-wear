@@ -1,3 +1,19 @@
+// Sync products from localStorage if available
+if (typeof products !== 'undefined') {
+  try {
+    const localProducts = localStorage.getItem('zw_products');
+    if (localProducts) {
+      const parsed = JSON.parse(localProducts);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        products.length = 0;
+        products.push(...parsed);
+      }
+    }
+  } catch (e) {
+    console.error("Error loading products from localStorage:", e);
+  }
+}
+
 const Store = {
   get(key) {
     try { return JSON.parse(localStorage.getItem(key)) || []; } catch { return []; }
@@ -657,7 +673,7 @@ function submitOrder(e) {
     `Name: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0A` +
     `Address: ${encodeURIComponent(address)}%0A%0APlease confirm my order.`;
 
-  window.open(`https://wa.me/919487980704?text=${msg}`, '_blank');
+  window.open(`https://wa.me/916379956323?text=${msg}`, '_blank');
   closeOrderModal();
 }
 
@@ -672,7 +688,7 @@ function submitCartOrder(e, lines, total) {
     `Name: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0A` +
     `Address: ${encodeURIComponent(address)}%0A%0APlease confirm my order.`;
 
-  window.open(`https://wa.me/919487980704?text=${msg}`, '_blank');
+  window.open(`https://wa.me/916379956323?text=${msg}`, '_blank');
   closeOrderModal();
 }
 
