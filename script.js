@@ -505,7 +505,10 @@ function openQuickView(productId) {
         <span class="quickview-tag">${p.tag}</span>
         <h2 class="quickview-title">${p.name}</h2>
         <div class="quickview-price-rating">
-          <span class="quickview-price-val">₹${p.price.toLocaleString()}</span>
+          <div style="display:flex;flex-direction:column;gap:3px;">
+            <span class="quickview-price-val">₹${p.price.toLocaleString()}</span>
+            ${p.originalPrice && p.originalPrice > p.price ? `<span style="font-size:0.85rem;color:#777;text-decoration:line-through;">₹${p.originalPrice.toLocaleString()} <span style="color:var(--gold);font-size:0.8rem;text-decoration:none;font-weight:600;">${Math.round((p.originalPrice - p.price) / p.originalPrice * 100)}% OFF</span></span>` : ''}
+          </div>
           <div class="product-rating">${stars}<span class="rating-number">(${p.rating})</span></div>
         </div>
         <p class="quickview-desc">${p.description}</p>
@@ -802,7 +805,10 @@ function buildProductCard(p) {
         <div class="product-rating">${buildStars(p.rating)}<span class="rating-number">${p.rating}</span></div>
         <div class="product-sizes-badges">${p.sizes.slice(0,4).map(s=>`<span class="size-badge">${s}</span>`).join('')}</div>
         <div class="product-price-row">
-          <span class="product-price-val">₹${p.price.toLocaleString()}</span>
+          <div style="display:flex;flex-direction:column;gap:2px;">
+            <span class="product-price-val">₹${p.price.toLocaleString()}</span>
+            ${p.originalPrice && p.originalPrice > p.price ? `<span style="font-size:0.75rem;color:#777;text-decoration:line-through;">₹${p.originalPrice.toLocaleString()}</span>` : ''}
+          </div>
           <button class="add-cart-btn-icon" ${!p.inStock?'disabled':''} onclick="${p.inStock?`Store.addToCart(products.find(x=>x.id==='${p.id}'),'${p.sizes[0]}')`:''}" title="Add to Cart">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
           </button>

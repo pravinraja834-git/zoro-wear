@@ -495,6 +495,106 @@
       border-radius: 4px;
     }
 
+    /* ─── Price Display ─── */
+    .price-offer {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .price-sale {
+      font-weight: 700;
+      color: var(--accent-green);
+      font-size: 0.95rem;
+    }
+    .price-mrp {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-decoration: line-through;
+    }
+    .price-discount {
+      font-size: 0.7rem;
+      color: var(--accent-gold);
+      font-weight: 600;
+    }
+
+    /* ─── Image Upload UI ─── */
+    .upload-zone {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .upload-label {
+      border: 2px dashed var(--border-color);
+      border-radius: 12px;
+      padding: 22px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.3s ease, background 0.3s ease;
+      background: #111;
+      display: block;
+      user-select: none;
+    }
+    .upload-label:hover,
+    .upload-label:focus-within {
+      border-color: var(--accent-gold);
+      background: rgba(212,175,55,0.04);
+    }
+    /* hide the raw file input but keep it accessible */
+    .upload-label input[type="file"] {
+      width: 0.1px;
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: -1;
+    }
+    .upload-icon { font-size: 2rem; margin-bottom: 6px; display: block; }
+    .upload-label-text {
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .upload-hint {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+    }
+    /* Preview shown below the label */
+    .upload-preview-wrap {
+      position: relative;
+      display: none;
+      width: fit-content;
+      margin: 0 auto;
+    }
+    .upload-preview-wrap.visible { display: block; }
+    .upload-preview {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 2px solid var(--accent-gold);
+      display: block;
+    }
+    .upload-remove-btn {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--accent-red);
+      border: none;
+      color: #fff;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      line-height: 1;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+
     .actions-cell {
       display: flex;
       gap: 10px;
@@ -658,12 +758,13 @@
       border-radius: 20px;
       width: 100%;
       max-width: 750px;
-      max-height: 90vh;
+      height: 92vh;
       display: flex;
       flex-direction: column;
       box-shadow: var(--shadow-premium);
       transform: translateY(30px);
       transition: transform 0.3s ease;
+      overflow: hidden;
     }
 
     .modal-overlay.open .modal-wrapper {
@@ -671,16 +772,17 @@
     }
 
     .modal-header {
-      padding: 24px 30px;
+      padding: 20px 28px;
       border-bottom: 1px solid var(--border-color);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-shrink: 0;
     }
 
     .modal-title {
       font-family: var(--font-display);
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 700;
     }
 
@@ -691,6 +793,7 @@
       font-size: 1.5rem;
       cursor: pointer;
       transition: color 0.2s ease;
+      line-height: 1;
     }
 
     .close-modal:hover {
@@ -698,9 +801,15 @@
     }
 
     .modal-body {
-      padding: 30px;
+      padding: 24px 28px;
       overflow-y: auto;
+      overflow-x: hidden;
       flex: 1;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .modal-footer {
+      flex-shrink: 0;
     }
 
     .form-grid-2 {
@@ -965,12 +1074,26 @@
 
           <div class="form-grid-2">
             <div class="form-group">
-              <label class="form-label" for="prod-price">Price (₹)</label>
-              <input type="number" id="prod-price" class="form-input" min="0" placeholder="399" required>
+              <label class="form-label" for="prod-mrp">MRP / Original Price (₹) <span style="color:#E74C3C">❌</span></label>
+              <input type="number" id="prod-mrp" class="form-input" min="0" placeholder="399">
+              <div style="font-size:0.75rem;color:var(--text-secondary);margin-top:4px;">Leave empty if no offer/discount</div>
             </div>
+            <div class="form-group">
+              <label class="form-label" for="prod-price">Sale Price (₹) <span style="color:#2ECC71">✅</span></label>
+              <input type="number" id="prod-price" class="form-input" min="0" placeholder="299" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
             <div class="form-group">
               <label class="form-label" for="prod-stock">Stock Count</label>
               <input type="number" id="prod-stock" class="form-input" min="0" placeholder="15" required>
+            </div>
+            <div class="form-group" style="display:flex;align-items:center;gap:12px;padding-top:28px;">
+              <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                <input type="checkbox" id="prod-instock" checked style="width:18px;height:18px;accent-color:var(--accent-gold);cursor:pointer;">
+                <span style="font-size:0.9rem;font-weight:500;">Mark as In Stock</span>
+              </label>
             </div>
           </div>
 
@@ -1004,14 +1127,40 @@
             </div>
           </div>
 
+          <!-- Hidden inputs to store final image data (base64 or path) -->
+          <input type="hidden" id="prod-image">
+          <input type="hidden" id="prod-hover-image">
+
           <div class="form-grid-2">
             <div class="form-group">
-              <label class="form-label" for="prod-image">Main Image Path / URL</label>
-              <input type="text" id="prod-image" class="form-input" placeholder="e.g. ./images/oversize-1.jpeg" required>
+              <label class="form-label">Main Product Image <span style="color:var(--accent-red)">*</span></label>
+              <div class="upload-zone">
+                <label class="upload-label" for="file-main">
+                  <input type="file" id="file-main" accept="image/*" onchange="handleImageUpload('file-main','preview-main-wrap','preview-main','prod-image')">
+                  <span class="upload-icon">📷</span>
+                  <span class="upload-label-text">Tap to choose image</span>
+                  <span class="upload-hint">JPG, PNG, WEBP · from camera or gallery</span>
+                </label>
+                <div class="upload-preview-wrap" id="preview-main-wrap">
+                  <img id="preview-main" class="upload-preview" alt="Preview">
+                  <button type="button" class="upload-remove-btn" onclick="removeImage('file-main','preview-main-wrap','preview-main','prod-image')">✕</button>
+                </div>
+              </div>
             </div>
             <div class="form-group">
-              <label class="form-label" for="prod-hover-image">Hover Image Path / URL</label>
-              <input type="text" id="prod-hover-image" class="form-input" placeholder="e.g. ./images/oversize-1.jpeg" required>
+              <label class="form-label">Hover / Secondary Image</label>
+              <div class="upload-zone">
+                <label class="upload-label" for="file-hover">
+                  <input type="file" id="file-hover" accept="image/*" onchange="handleImageUpload('file-hover','preview-hover-wrap','preview-hover','prod-hover-image')">
+                  <span class="upload-icon">🖼️</span>
+                  <span class="upload-label-text">Tap to choose image</span>
+                  <span class="upload-hint">JPG, PNG, WEBP · optional but recommended</span>
+                </label>
+                <div class="upload-preview-wrap" id="preview-hover-wrap">
+                  <img id="preview-hover" class="upload-preview" alt="Preview">
+                  <button type="button" class="upload-remove-btn" onclick="removeImage('file-hover','preview-hover-wrap','preview-hover','prod-hover-image')">✕</button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1139,7 +1288,12 @@
             </div>
           </td>
           <td>${p.category}</td>
-          <td>₹${p.price}</td>
+          <td>
+            <div class="price-offer">
+              <span class="price-sale">₹${p.price}</span>
+              ${p.originalPrice && p.originalPrice > p.price ? `<span class="price-mrp">₹${p.originalPrice}</span><span class="price-discount">${Math.round((p.originalPrice - p.price) / p.originalPrice * 100)}% OFF</span>` : ''}
+            </div>
+          </td>
           <td>
             <span class="badge ${p.stockCount > 0 ? 'badge-stock' : 'badge-out'}">
               ${p.stockCount} in stock
@@ -1180,7 +1334,10 @@
             </div>
             <div class="mobile-card-details-row">
               <span class="mobile-card-label">Price</span>
-              <span class="mobile-card-value">₹${p.price}</span>
+              <span class="mobile-card-value">
+                <span style="color:var(--accent-green);font-weight:700;">₹${p.price}</span>
+                ${p.originalPrice && p.originalPrice > p.price ? `<span style="text-decoration:line-through;color:var(--text-secondary);font-size:0.8rem;margin-left:6px;">₹${p.originalPrice}</span>` : ''}
+              </span>
             </div>
             <div class="mobile-card-details-row">
               <span class="mobile-card-label">Stock Status</span>
@@ -1216,7 +1373,12 @@
       document.getElementById('modal-title').textContent = 'Add New Product';
       document.getElementById('edit-product-id').value = '';
       document.getElementById('product-form').reset();
+      document.getElementById('prod-instock').checked = true;
       
+      // Reset image previews
+      resetImageUpload('file-main', 'preview-main-wrap', 'preview-main', 'prod-image');
+      resetImageUpload('file-hover', 'preview-hover-wrap', 'preview-hover', 'prod-hover-image');
+
       // Default sizes checkboxes
       document.querySelectorAll('.checkbox-btn input').forEach(cb => {
         cb.checked = ['M', 'L', 'XL'].includes(cb.value);
@@ -1235,9 +1397,14 @@
       document.getElementById('prod-category').value = p.category;
       document.getElementById('prod-tag').value = p.tag || '';
       document.getElementById('prod-price').value = p.price;
+      document.getElementById('prod-mrp').value = p.originalPrice || '';
       document.getElementById('prod-stock').value = p.stockCount;
-      document.getElementById('prod-image').value = p.image;
-      document.getElementById('prod-hover-image').value = p.hoverImage || p.image;
+      document.getElementById('prod-instock').checked = p.inStock !== false;
+
+      // Restore image previews from stored data
+      setImagePreview('preview-main-wrap', 'preview-main', 'prod-image', p.image);
+      setImagePreview('preview-hover-wrap', 'preview-hover', 'prod-hover-image', p.hoverImage || p.image);
+
       document.getElementById('prod-desc').value = p.description || '';
       document.getElementById('prod-features').value = (p.features || []).join('\n');
 
@@ -1254,6 +1421,44 @@
       document.getElementById('product-modal').classList.remove('open');
     }
 
+    // ── Image Upload Helpers ──
+    // fileInputId: the <input type=file> id
+    // wrapId:      the preview-wrap div id (shown/hidden)
+    // previewId:   the <img> id
+    // hiddenId:    the hidden input storing the base64/url
+    function handleImageUpload(fileInputId, wrapId, previewId, hiddenId) {
+      const file = document.getElementById(fileInputId).files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById(previewId).src = e.target.result;
+        document.getElementById(wrapId).classList.add('visible');
+        document.getElementById(hiddenId).value = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeImage(fileInputId, wrapId, previewId, hiddenId) {
+      document.getElementById(fileInputId).value = '';
+      document.getElementById(previewId).src = '';
+      document.getElementById(wrapId).classList.remove('visible');
+      document.getElementById(hiddenId).value = '';
+    }
+
+    function setImagePreview(wrapId, previewId, hiddenId, src) {
+      if (!src) return;
+      document.getElementById(previewId).src = src;
+      document.getElementById(wrapId).classList.add('visible');
+      document.getElementById(hiddenId).value = src;
+    }
+
+    function resetImageUpload(fileInputId, wrapId, previewId, hiddenId) {
+      document.getElementById(fileInputId).value = '';
+      document.getElementById(previewId).src = '';
+      document.getElementById(wrapId).classList.remove('visible');
+      document.getElementById(hiddenId).value = '';
+    }
+
     // Save/Add product handler
     function saveProduct(e) {
       e.preventDefault();
@@ -1263,11 +1468,19 @@
       const category = document.getElementById('prod-category').value.trim();
       const tag = document.getElementById('prod-tag').value.trim().toUpperCase();
       const price = parseFloat(document.getElementById('prod-price').value);
+      const mrpRaw = document.getElementById('prod-mrp').value;
+      const originalPrice = mrpRaw ? parseFloat(mrpRaw) : null;
       const stockCount = parseInt(document.getElementById('prod-stock').value);
+      const inStock = document.getElementById('prod-instock').checked;
       const image = document.getElementById('prod-image').value.trim();
-      const hoverImage = document.getElementById('prod-hover-image').value.trim();
+      const hoverImage = document.getElementById('prod-hover-image').value.trim() || image;
       const description = document.getElementById('prod-desc').value.trim();
       const features = document.getElementById('prod-features').value.trim().split('\n').map(x => x.trim()).filter(Boolean);
+
+      if (!image) {
+        alert('Please upload a main product image.');
+        return;
+      }
 
       // Get selected sizes
       const sizes = [];
@@ -1276,28 +1489,30 @@
       });
 
       if (sizes.length === 0) {
-        alert("Please select at least one available size.");
+        alert('Please select at least one available size.');
         return;
       }
+
+      const productData = {
+        name,
+        category,
+        tag,
+        price,
+        originalPrice: originalPrice && originalPrice > price ? originalPrice : null,
+        stockCount,
+        inStock: inStock && stockCount > 0,
+        image,
+        hoverImage,
+        description,
+        features,
+        sizes
+      };
 
       if (editId) {
         // Edit flow
         const idx = productsDb.findIndex(x => x.id === editId);
         if (idx > -1) {
-          productsDb[idx] = {
-            ...productsDb[idx],
-            name,
-            category,
-            tag,
-            price,
-            stockCount,
-            inStock: stockCount > 0,
-            image,
-            hoverImage,
-            description,
-            features,
-            sizes
-          };
+          productsDb[idx] = { ...productsDb[idx], ...productData, images: [image] };
         }
       } else {
         // Add flow - generate unique ID
@@ -1306,22 +1521,11 @@
           num++;
         }
         const newId = `zw-${String(num).padStart(3, '0')}`;
-        
         productsDb.push({
           id: newId,
-          name,
-          category,
-          tag,
-          price,
-          rating: 5.0, // default rating
-          stockCount,
-          inStock: stockCount > 0,
-          image,
-          hoverImage,
+          rating: 5.0,
           images: [image],
-          description,
-          features,
-          sizes
+          ...productData
         });
       }
 
@@ -1347,10 +1551,11 @@
         outputCode += `    id: ${JSON.stringify(p.id)},\n`;
         outputCode += `    name: ${JSON.stringify(p.name)},\n`;
         outputCode += `    price: ${p.price},\n`;
+        if (p.originalPrice) outputCode += `    originalPrice: ${p.originalPrice},\n`;
         outputCode += `    rating: ${p.rating || 5.0},\n`;
         outputCode += `    category: ${JSON.stringify(p.category)},\n`;
         outputCode += `    sizes: ${JSON.stringify(p.sizes)},\n`;
-        outputCode += `    inStock: ${p.stockCount > 0},\n`;
+        outputCode += `    inStock: ${p.inStock !== false && p.stockCount > 0},\n`;
         outputCode += `    stockCount: ${p.stockCount},\n`;
         outputCode += `    tag: ${JSON.stringify(p.tag || '')},\n`;
         outputCode += `    image: ${JSON.stringify(p.image)},\n`;
