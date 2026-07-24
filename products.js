@@ -174,7 +174,7 @@ const products = [
     price: 249,
     originalPrice: 299,
     rating: 4.8,
-    category: "Collar T-Shirt",
+    category: "Collar T-Shirts",
     sizes: ["S", "M", "L"],
     inStock: true,
     stockCount: 7,
@@ -318,6 +318,30 @@ const products = [
       "Moisture-wicking technology",
       "Breathable mesh panels",
       "Anti-odor treatment"
+    ]
+  },
+  {
+    id: "zw-014",
+    name: "Collar T-Shirt",
+    price: 299,
+    originalPrice: 599,
+    rating: 4.8,
+    category: "Collar T-Shirts",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    inStock: true,
+    stockCount: 20,
+    tag: "NEW DROP",
+    image: "./images/collartshirt.jpeg",
+    hoverImage: "./images/collartshirt.jpeg",
+    images: [
+      "./images/collartshirt.jpeg"
+    ],
+    description: "Classic collar t-shirt crafted from premium cotton. A versatile piece that combines casual comfort with a polished look, perfect for everyday wear.",
+    features: [
+      "240 GSM Premium Cotton",
+      "Classic collar design",
+      "Pre-shrunk fabric",
+      "Double-stitched hem"
     ]
   },
 ];
