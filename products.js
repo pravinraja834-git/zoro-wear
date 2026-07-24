@@ -310,7 +310,8 @@ const products = [
     images: [
       "./images/tecnosport-1.jpeg",
       "./images/tecnosport-2.jpeg",
-      "./images/tecnosport-3.jpeg"
+      "./images/tecnosport-3.jpeg",
+      "./images/tecnosport-4.jpeg"
     ],
     description: "High-performance sports tee with moisture-wicking technology. Designed for athletes and active individuals who demand the best.",
     features: [
