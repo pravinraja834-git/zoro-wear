@@ -1,6 +1,9 @@
 // Sync products from localStorage if available
 if (typeof products !== 'undefined') {
   try {
+    // Clear old cache to force reload with new products
+    localStorage.removeItem('zw_products');
+    
     const localProducts = localStorage.getItem('zw_products');
     if (localProducts) {
       const parsed = JSON.parse(localProducts);
@@ -12,6 +15,8 @@ if (typeof products !== 'undefined') {
   } catch (e) {
     console.error("Error loading products from localStorage:", e);
   }
+  // Always sync current products to localStorage to ensure latest data
+  localStorage.setItem('zw_products', JSON.stringify(products));
 }
 
 const Store = {
@@ -661,6 +666,355 @@ function openCartCheckout() {
 }
 window.openCheckoutModal = openCartCheckout;
 
+/* =====================================================
+   18. ORDER IMAGE GENERATION (Canvas)
+   ===================================================== */
+function generateOrderImage(items, totalPrice, customerName, customerPhone, customerAddress) {
+  return new Promise((resolve) => {
+    const W = 600, PAD = 30;
+    const canvas = document.createElement('canvas');
+    canvas.width = W;
+    canvas.className = 'hidden-canvas';
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+
+    function drawRoundedRect(x, y, w, h, r, fill) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+      ctx.fillStyle = fill;
+      ctx.fill();
+    }
+
+    let y = 0;
+
+    // Header bar
+    const hdrH = 60;
+    const hdrGrad = ctx.createLinearGradient(0, 0, W, 0);
+    hdrGrad.addColorStop(0, '#1a1a1a');
+    hdrGrad.addColorStop(1, '#2a2a2a');
+    ctx.fillStyle = hdrGrad;
+    ctx.fillRect(0, 0, W, hdrH);
+
+    // Gold accent line
+    ctx.fillStyle = '#D4AF37';
+    ctx.fillRect(0, hdrH, W, 3);
+
+    // Brand text
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 20px Arial, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('ZORO WEAR', PAD, 38);
+
+    ctx.fillStyle = '#D4AF37';
+    ctx.font = '12px Arial, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText('Order Summary', W - PAD, 38);
+
+    y = hdrH + 3 + 20;
+
+    // Product items
+    const imgSize = 100;
+    const loadedImages = [];
+    let imagesReady = 0;
+
+    items.forEach((item, idx) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => { imagesReady++; if (imagesReady === items.length) drawAll(); };
+      img.onerror = () => { imagesReady++; if (imagesReady === items.length) drawAll(); };
+      img.src = item.image;
+      loadedImages[idx] = img;
+    });
+
+    if (items.length === 0) drawAll();
+
+    function drawAll() {
+      y = hdrH + 3 + 20;
+      const sectionBg = '#FAFAFA';
+
+      items.forEach((item, idx) => {
+        const itemH = imgSize + 20;
+        drawRoundedRect(PAD, y, W - PAD * 2, itemH, 10, sectionBg);
+
+        // Product image
+        const img = loadedImages[idx];
+        if (img && img.complete && img.naturalWidth) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.roundRect(PAD + 10, y + 10, imgSize, imgSize, 8);
+          ctx.clip();
+          ctx.drawImage(img, PAD + 10, y + 10, imgSize, imgSize);
+          ctx.restore();
+        } else {
+          ctx.fillStyle = '#E0E0E0';
+          ctx.fillRect(PAD + 10, y + 10, imgSize, imgSize);
+          ctx.fillStyle = '#999';
+          ctx.font = '11px Arial';
+          ctx.textAlign = 'center';
+          ctx.fillText('Image', PAD + 10 + imgSize / 2, y + 10 + imgSize / 2 + 4);
+        }
+
+        // Product details
+        const txtX = PAD + 10 + imgSize + 15;
+        ctx.fillStyle = '#1a1a1a';
+        ctx.font = 'bold 15px Arial, sans-serif';
+        ctx.textAlign = 'left';
+        const nameLines = wrapText(ctx, item.name, W - txtX - PAD - 10);
+        nameLines.forEach((line, li) => {
+          ctx.fillText(line, txtX, y + 28 + li * 20);
+        });
+
+        const detailY = y + 28 + nameLines.length * 20 + 6;
+        ctx.fillStyle = '#666';
+        ctx.font = '13px Arial, sans-serif';
+        ctx.fillText(`Size: ${item.size}  |  Qty: ${item.qty}`, txtX, detailY);
+
+        ctx.fillStyle = '#D4AF37';
+        ctx.font = 'bold 16px Arial, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(`₹${(item.price * item.qty).toLocaleString()}`, W - PAD - 15, y + itemH - 12);
+
+        y += itemH + 10;
+      });
+
+      // Divider
+      y += 5;
+      ctx.strokeStyle = '#E0E0E0';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(PAD, y);
+      ctx.lineTo(W - PAD, y);
+      ctx.stroke();
+      y += 20;
+
+      // Customer details section
+      const custH = 130;
+      drawRoundedRect(PAD, y, W - PAD * 2, custH, 10, sectionBg);
+
+      ctx.fillStyle = '#D4AF37';
+      ctx.font = 'bold 12px Arial, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('DELIVERY DETAILS', PAD + 18, y + 24);
+
+      ctx.fillStyle = '#1a1a1a';
+      ctx.font = '13px Arial, sans-serif';
+      ctx.fillText(`Name: ${customerName}`, PAD + 18, y + 50);
+      ctx.fillText(`Phone: ${customerPhone}`, PAD + 18, y + 72);
+
+      ctx.fillStyle = '#555';
+      ctx.font = '12px Arial, sans-serif';
+      const addrLines = wrapText(ctx, `Address: ${customerAddress}`, W - PAD * 2 - 36);
+      addrLines.slice(0, 3).forEach((line, li) => {
+        ctx.fillText(line, PAD + 18, y + 96 + li * 16);
+      });
+
+      y += custH + 15;
+
+      // Total row
+      ctx.fillStyle = '#1a1a1a';
+      ctx.font = 'bold 16px Arial, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('Total', PAD, y + 16);
+      ctx.fillStyle = '#D4AF37';
+      ctx.font = 'bold 20px Arial, sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(`₹${totalPrice.toLocaleString()}`, W - PAD, y + 18);
+
+      y += 40;
+
+      // Footer
+      ctx.fillStyle = '#1a1a1a';
+      ctx.fillRect(0, y, W, 50);
+      ctx.fillStyle = '#D4AF37';
+      ctx.font = '12px Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Thank you for shopping with ZORO Wear!', W / 2, y + 30);
+
+      y += 50;
+      canvas.height = y;
+
+      // Re-draw everything onto properly sized canvas
+      redrawAll(canvas, ctx, items, loadedImages, imgSize, W, PAD, hdrH, hdrGrad, sectionBg, customerName, customerPhone, customerAddress, totalPrice, y);
+
+      canvas.toBlob((blob) => {
+        document.body.removeChild(canvas);
+        resolve(blob);
+      }, 'image/png');
+    }
+  });
+}
+
+function redrawAll(canvas, ctx, items, loadedImages, imgSize, W, PAD, hdrH, hdrGrad, sectionBg, customerName, customerPhone, customerAddress, totalPrice, finalH) {
+  canvas.height = finalH;
+  ctx.clearRect(0, 0, W, finalH);
+
+  // Header
+  ctx.fillStyle = hdrGrad;
+  ctx.fillRect(0, 0, W, hdrH);
+  ctx.fillStyle = '#D4AF37';
+  ctx.fillRect(0, hdrH, W, 3);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = 'bold 20px Arial, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('ZORO WEAR', PAD, 38);
+  ctx.fillStyle = '#D4AF37';
+  ctx.font = '12px Arial, sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText('Order Summary', W - PAD, 38);
+
+  let y = hdrH + 3 + 20;
+  const itemH = imgSize + 20;
+
+  // Items
+  items.forEach((item, idx) => {
+    drawRoundedRectPath(ctx, PAD, y, W - PAD * 2, itemH, 10, sectionBg);
+    const img = loadedImages[idx];
+    if (img && img.complete && img.naturalWidth) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.roundRect(PAD + 10, y + 10, imgSize, imgSize, 8);
+      ctx.clip();
+      ctx.drawImage(img, PAD + 10, y + 10, imgSize, imgSize);
+      ctx.restore();
+    } else {
+      ctx.fillStyle = '#E0E0E0';
+      ctx.fillRect(PAD + 10, y + 10, imgSize, imgSize);
+    }
+    const txtX = PAD + 10 + imgSize + 15;
+    ctx.fillStyle = '#1a1a1a';
+    ctx.font = 'bold 15px Arial, sans-serif';
+    ctx.textAlign = 'left';
+    const nameLines = wrapText(ctx, item.name, W - txtX - PAD - 10);
+    nameLines.forEach((line, li) => { ctx.fillText(line, txtX, y + 28 + li * 20); });
+    const detailY = y + 28 + nameLines.length * 20 + 6;
+    ctx.fillStyle = '#666';
+    ctx.font = '13px Arial, sans-serif';
+    ctx.fillText(`Size: ${item.size}  |  Qty: ${item.qty}`, txtX, detailY);
+    ctx.fillStyle = '#D4AF37';
+    ctx.font = 'bold 16px Arial, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(`₹${(item.price * item.qty).toLocaleString()}`, W - PAD - 15, y + itemH - 12);
+    y += itemH + 10;
+  });
+
+  // Divider
+  y += 5;
+  ctx.strokeStyle = '#E0E0E0';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(PAD, y);
+  ctx.lineTo(W - PAD, y);
+  ctx.stroke();
+  y += 20;
+
+  // Customer details
+  const custH = 130;
+  drawRoundedRectPath(ctx, PAD, y, W - PAD * 2, custH, 10, sectionBg);
+  ctx.fillStyle = '#D4AF37';
+  ctx.font = 'bold 12px Arial, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('DELIVERY DETAILS', PAD + 18, y + 24);
+  ctx.fillStyle = '#1a1a1a';
+  ctx.font = '13px Arial, sans-serif';
+  ctx.fillText(`Name: ${customerName}`, PAD + 18, y + 50);
+  ctx.fillText(`Phone: ${customerPhone}`, PAD + 18, y + 72);
+  ctx.fillStyle = '#555';
+  ctx.font = '12px Arial, sans-serif';
+  const addrLines = wrapText(ctx, `Address: ${customerAddress}`, W - PAD * 2 - 36);
+  addrLines.slice(0, 3).forEach((line, li) => { ctx.fillText(line, PAD + 18, y + 96 + li * 16); });
+  y += custH + 15;
+
+  // Total
+  ctx.fillStyle = '#1a1a1a';
+  ctx.font = 'bold 16px Arial, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('Total', PAD, y + 16);
+  ctx.fillStyle = '#D4AF37';
+  ctx.font = 'bold 20px Arial, sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText(`₹${totalPrice.toLocaleString()}`, W - PAD, y + 18);
+  y += 40;
+
+  // Footer
+  ctx.fillStyle = '#1a1a1a';
+  ctx.fillRect(0, y, W, 50);
+  ctx.fillStyle = '#D4AF37';
+  ctx.font = '12px Arial, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Thank you for shopping with ZORO Wear!', W / 2, y + 30);
+}
+
+function drawRoundedRectPath(ctx, x, y, w, h, r, fill) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+  ctx.fillStyle = fill;
+  ctx.fill();
+}
+
+function wrapText(ctx, text, maxWidth) {
+  const words = text.split(' ');
+  const lines = [];
+  let current = words[0] || '';
+  for (let i = 1; i < words.length; i++) {
+    const test = current + ' ' + words[i];
+    if (ctx.measureText(test).width < maxWidth) {
+      current = test;
+    } else {
+      lines.push(current);
+      current = words[i];
+    }
+  }
+  lines.push(current);
+  return lines;
+}
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+async function shareOrFallback(blob, textMsg, closeFn) {
+  if (navigator.share && navigator.canShare) {
+    const file = new File([blob], 'zoro-order.png', { type: 'image/png' });
+    if (navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], text: textMsg });
+        closeFn();
+        return;
+      } catch (err) {
+        if (err.name === 'AbortError') { closeFn(); return; }
+      }
+    }
+  }
+  downloadBlob(blob, 'zoro-order.png');
+  window.open(`https://wa.me/916379956323?text=${encodeURIComponent(textMsg)}`, '_blank');
+  closeFn();
+}
+
 function submitOrder(e) {
   e.preventDefault();
   const name    = document.getElementById('order-name').value.trim();
@@ -668,16 +1022,13 @@ function submitOrder(e) {
   const address = document.getElementById('order-address').value.trim();
   if (!name || !phone || !address) { showToast('Please fill all fields'); return; }
 
-  const msg = `Hello ZORO Wear,%0A%0AI want to order:%0A%0A` +
-    `Product: ${encodeURIComponent(orderProduct.name)}%0A` +
-    `Size: ${orderSize}%0A` +
-    `Quantity: ${orderQty}%0A` +
-    `Price: ₹${(orderProduct.price * orderQty).toLocaleString()}%0A%0A` +
-    `Name: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0A` +
-    `Address: ${encodeURIComponent(address)}%0A%0APlease confirm my order.`;
+  const items = [{ name: orderProduct.name, size: orderSize, qty: orderQty, price: orderProduct.price, image: orderProduct.image }];
+  const total = orderProduct.price * orderQty;
+  const textMsg = `Hello ZORO Wear,\n\nI want to order:\n\nProduct: ${orderProduct.name}\nSize: ${orderSize}\nQty: ${orderQty}\nPrice: ₹${total.toLocaleString()}\n\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\nPlease confirm my order.`;
 
-  window.open(`https://wa.me/916379956323?text=${msg}`, '_blank');
-  closeOrderModal();
+  generateOrderImage(items, total, name, phone, address).then((blob) => {
+    shareOrFallback(blob, textMsg, closeOrderModal);
+  });
 }
 
 function submitCartOrder(e, lines, total) {
@@ -685,14 +1036,16 @@ function submitCartOrder(e, lines, total) {
   const name    = document.getElementById('order-name2').value.trim();
   const phone   = document.getElementById('order-phone2').value.trim();
   const address = document.getElementById('order-address2').value.trim();
+  if (!name || !phone || !address) { showToast('Please fill all fields'); return; }
 
-  const msg = `Hello ZORO Wear,%0A%0AI want to order:%0A%0A${lines}%0A%0A` +
-    `Total: ₹${(+total).toLocaleString()}%0A%0A` +
-    `Name: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0A` +
-    `Address: ${encodeURIComponent(address)}%0A%0APlease confirm my order.`;
+  const cart = Store.getCart();
+  const items = cart.map(i => ({ name: i.name, size: i.size, qty: i.qty, price: i.price, image: i.image }));
+  const totalNum = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const textMsg = `Hello ZORO Wear,\n\nI want to order:\n\n${cart.map(i => `${i.name} (Size: ${i.size}) x${i.qty} = ₹${(i.price * i.qty).toLocaleString()}`).join('\n')}\n\nTotal: ₹${totalNum.toLocaleString()}\n\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\nPlease confirm my order.`;
 
-  window.open(`https://wa.me/916379956323?text=${msg}`, '_blank');
-  closeOrderModal();
+  generateOrderImage(items, totalNum, name, phone, address).then((blob) => {
+    shareOrFallback(blob, textMsg, closeOrderModal);
+  });
 }
 
 function closeOrderModal() {

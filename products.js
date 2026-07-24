@@ -3,7 +3,8 @@ const products = [
   {
     id: "zw-001",
     name: "Adidas Heavyweight Oversized Tee",
-    price: 399,
+    price: 299,
+    originalPrice: 399,
     rating: 4.9,
     category: "Oversized T-Shirts",
     sizes: ["M", "L", "XL", "XXL", "XXXL"],
@@ -26,7 +27,8 @@ const products = [
   {
     id: "zw-002",
     name: "True Breed Graphic Tee",
-    price: 399,
+    price: 299,
+    originalPrice: 399,
     rating: 4.8,
     category: "Oversized T-Shirts",
     sizes: ["M", "L", "XL", "XXL"],
@@ -49,7 +51,8 @@ const products = [
   {
     id: "zw-003",
     name: "Brasil Oversized Tee",
-    price: 399,
+    price: 299,
+    originalPrice: 399,
     rating: 4.7,
     category: "Oversized T-Shirts",
     sizes: ["M", "L", "XL", "XXL"],
@@ -72,7 +75,8 @@ const products = [
   {
     id: "zw-004",
     name: "Peanuts Oversize Tee",
-    price: 399,
+    price: 299,
+    originalPrice: 399,
     rating: 4.9,
     category: "Oversized T-Shirts",
     sizes: ["M", "L", "XL", "XXL"],
@@ -95,7 +99,8 @@ const products = [
   {
     id: "zw-005",
     name: "Black Panther Oversize Tee",
-    price: 399,
+    price: 299,
+    originalPrice: 399,
     rating: 4.8,
     category: "Oversized T-Shirts",
     sizes: [ "M", "L", "XL", "XXL"],
@@ -118,7 +123,8 @@ const products = [
   {
     id: "zw-006",
     name: "Messi Sport Jersey",
-    price: 249,
+    price: 199,
+    originalPrice:249,
     rating: 4.9,
     category: "Football Jerseys",
     sizes: ["M", "L", "XL"],
@@ -141,7 +147,8 @@ const products = [
   {
     id: "zw-007",
     name: "Ronaldo Sport Jersey",
-    price: 249,
+    price: 199,
+    originalPrice: 249,
     rating: 4.6,
     category: "Football Jerseys",
     sizes: ["M", "L", "XL"],
@@ -164,7 +171,8 @@ const products = [
   {
     id: "zw-008",
     name: "Plain collar T-Shirts",
-    price: 299,
+    price: 249,
+    originalPrice: 299,
     rating: 4.8,
     category: "Collar T-Shirt",
     sizes: ["S", "M", "L"],
@@ -187,7 +195,8 @@ const products = [
   {
     id: "zw-009",
     name: "3-Line Track",
-    price: 249,
+    price: 199,
+    originalPrice: 249,
     rating: 4.7,
     category: "Track Pants",
     sizes: ["M", "L", "XL"],
@@ -210,7 +219,8 @@ const products = [
   {
     id: "zw-010",
     name: "3-Line Shorts",
-    price: 199,
+    price: 149,
+    originalPrice: 199,
     rating: 4.8,
     category: "Shorts",
     sizes: ["S", "M", "L", "XL"],
@@ -228,6 +238,86 @@ const products = [
       "Soft breathable mesh lining",
       "Aesthetic drawstrings with golden tips",
       "Twin back patch pockets"
+    ]
+  },
+  {
+    id: "zw-011",
+    name: "Classic Round Neck Tee",
+    price: 249,
+    originalPrice: 299,
+    rating: 4.7,
+    category: "Round Neck",
+    sizes: ["S", "M", "L", "XL"],
+    inStock: true,
+    stockCount: 4,
+    tag: "BEST SELLER",
+    image: "./images/roundneck-main.jpeg",
+    hoverImage: "./images/roundneck-main.jpeg",
+    images: [
+      "./images/roundneck-1.jpeg",
+      "./images/roundneck-2.jpeg",
+      "./images/roundneck-3.jpeg",
+      "./images/roundneck-4.jpeg",
+    ],
+    description: "A timeless classic round neck t-shirt crafted from premium cotton. Perfect for everyday wear with a comfortable regular fit that suits all occasions.",
+    features: [
+      "240 GSM Premium Cotton",
+      "Classic round neck design",
+      "Pre-shrunk fabric",
+      "Double-stitched hem"
+    ]
+  },
+  {
+    id: "zw-012",
+    name: "Tecno Digital Print Tee",
+    price: 199,
+    originalPrice: 299,
+    rating: 4.7,
+    category: "Tecno",
+    sizes: ["M", "L", "XL", "XXL"],
+    inStock: true,
+    stockCount: 10,
+    tag: "NEW DROP",
+    image: "./images/tecno-main.jpeg",
+    hoverImage: "./images/tecno-main.jpeg",
+    images: [
+      "./images/tecno-1.jpeg",
+      "./images/tecno-2.jpeg",
+      "./images/tecno-3.jpeg"
+    ],
+    description: "Futuristic digital print design inspired by technology and innovation. Features bold graphics with a modern aesthetic.",
+    features: [
+      "240 GSM Tech Cotton",
+      "Digital print technology",
+      "Modern tech-inspired design",
+      "Pre-shrunk fabric"
+    ]
+  },
+  
+  {
+    id: "zw-013",
+    name: "Tecno-Sport Performance Tee",
+    price: 199,
+    originalPrice: 299,
+    rating: 4.9,
+    category: "Tecno-Sport",
+    sizes: ["M", "L", "XL", "XXL"],
+    inStock: true,
+    stockCount: 14,
+    tag: "BEST SELLER",
+    image: "./images/tecnosport-main.jpeg",
+    hoverImage: "./images/tecnosport-main.jpeg",
+    images: [
+      "./images/tecnosport-1.jpeg",
+      "./images/tecnosport-2.jpeg",
+      "./images/tecnosport-3.jpeg"
+    ],
+    description: "High-performance sports tee with moisture-wicking technology. Designed for athletes and active individuals who demand the best.",
+    features: [
+      "260 GSM Performance Fabric",
+      "Moisture-wicking technology",
+      "Breathable mesh panels",
+      "Anti-odor treatment"
     ]
   },
 ];

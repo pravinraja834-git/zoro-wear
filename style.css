@@ -3186,3 +3186,11 @@ textarea.form-input {
   line-height: 1.6;
   margin-bottom: 40px;
 }
+
+/* Hidden canvas for order image generation */
+.hidden-canvas {
+  position: fixed;
+  left: -9999px;
+  top: -9999px;
+  pointer-events: none;
+}
