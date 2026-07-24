@@ -997,22 +997,13 @@ function downloadBlob(blob, filename) {
   URL.revokeObjectURL(url);
 }
 
-async function shareOrFallback(blob, textMsg, closeFn) {
-  if (navigator.share && navigator.canShare) {
-    const file = new File([blob], 'zoro-order.png', { type: 'image/png' });
-    if (navigator.canShare({ files: [file] })) {
-      try {
-        await navigator.share({ files: [file], text: textMsg });
-        closeFn();
-        return;
-      } catch (err) {
-        if (err.name === 'AbortError') { closeFn(); return; }
-      }
-    }
-  }
+function sendOrderToWhatsApp(blob, textMsg, closeFn) {
   downloadBlob(blob, 'zoro-order.png');
-  window.open(`https://wa.me/916379956323?text=${encodeURIComponent(textMsg)}`, '_blank');
-  closeFn();
+  showToast('Order image downloaded! Attach it to your WhatsApp message.');
+  setTimeout(() => {
+    window.open(`https://wa.me/916379956323?text=${encodeURIComponent(textMsg)}`, '_blank');
+    closeFn();
+  }, 500);
 }
 
 function submitOrder(e) {
@@ -1027,7 +1018,7 @@ function submitOrder(e) {
   const textMsg = `Hello ZORO Wear,\n\nI want to order:\n\nProduct: ${orderProduct.name}\nSize: ${orderSize}\nQty: ${orderQty}\nPrice: ₹${total.toLocaleString()}\n\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\nPlease confirm my order.`;
 
   generateOrderImage(items, total, name, phone, address).then((blob) => {
-    shareOrFallback(blob, textMsg, closeOrderModal);
+    sendOrderToWhatsApp(blob, textMsg, closeOrderModal);
   });
 }
 
@@ -1044,7 +1035,7 @@ function submitCartOrder(e, lines, total) {
   const textMsg = `Hello ZORO Wear,\n\nI want to order:\n\n${cart.map(i => `${i.name} (Size: ${i.size}) x${i.qty} = ₹${(i.price * i.qty).toLocaleString()}`).join('\n')}\n\nTotal: ₹${totalNum.toLocaleString()}\n\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\nPlease confirm my order.`;
 
   generateOrderImage(items, totalNum, name, phone, address).then((blob) => {
-    shareOrFallback(blob, textMsg, closeOrderModal);
+    sendOrderToWhatsApp(blob, textMsg, closeOrderModal);
   });
 }
 
