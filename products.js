@@ -179,10 +179,10 @@ const products = [
     inStock: true,
     stockCount: 7,
     tag: "BEST SELLER",
-    image: "./images/collar-1.jpeg",
-    hoverImage: "./images/collor-1.jpeg",
+    image: "./images/collartshirt.jpeg",
+    hoverImage: "./images/collortshirt.jpeg",
     images: [
-      "./images/collor-1.jpeg"
+      "./images/collartshirt.jpeg"
     ],
     description: "Tailored joggers featuring heavyweight french terry fleece. A tapered leg silhouette meets relaxed thigh cuts, creating the perfect loungewear-to-street look.",
     features: [
@@ -318,30 +318,6 @@ const products = [
       "Moisture-wicking technology",
       "Breathable mesh panels",
       "Anti-odor treatment"
-    ]
-  },
-  {
-    id: "zw-014",
-    name: "Collar T-Shirt",
-    price: 299,
-    originalPrice: 599,
-    rating: 4.8,
-    category: "Collar T-Shirts",
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    inStock: true,
-    stockCount: 20,
-    tag: "NEW DROP",
-    image: "./images/collartshirt.jpeg",
-    hoverImage: "./images/collartshirt.jpeg",
-    images: [
-      "./images/collartshirt.jpeg"
-    ],
-    description: "Classic collar t-shirt crafted from premium cotton. A versatile piece that combines casual comfort with a polished look, perfect for everyday wear.",
-    features: [
-      "240 GSM Premium Cotton",
-      "Classic collar design",
-      "Pre-shrunk fabric",
-      "Double-stitched hem"
     ]
   },
 ];
