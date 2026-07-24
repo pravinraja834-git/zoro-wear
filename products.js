@@ -252,12 +252,9 @@ const products = [
     stockCount: 4,
     tag: "BEST SELLER",
     image: "./images/roundneck-main.jpeg",
-    hoverImage: "./images/roundneck-main.jpeg",
+    hoverImage: "./images/roundneck-1.jpeg",
     images: [
       "./images/roundneck-1.jpeg",
-      "./images/roundneck-2.jpeg",
-      "./images/roundneck-3.jpeg",
-      "./images/roundneck-4.jpeg",
     ],
     description: "A timeless classic round neck t-shirt crafted from premium cotton. Perfect for everyday wear with a comfortable regular fit that suits all occasions.",
     features: [
@@ -269,6 +266,78 @@ const products = [
   },
   {
     id: "zw-012",
+    name: "Classic Round Neck Tee",
+    price: 249,
+    originalPrice: 299,
+    rating: 4.7,
+    category: "Round Neck",
+    sizes: ["S", "M", "L", "XL"],
+    inStock: true,
+    stockCount: 4,
+    tag: "BEST SELLER",
+    image: "./images/roundneck-main.jpeg",
+    hoverImage: "./images/roundneck-2.jpeg",
+    images: [
+      "./images/roundneck-2.jpeg",
+    ],
+    description: "A timeless classic round neck t-shirt crafted from premium cotton. Perfect for everyday wear with a comfortable regular fit that suits all occasions.",
+    features: [
+      "240 GSM Premium Cotton",
+      "Classic round neck design",
+      "Pre-shrunk fabric",
+      "Double-stitched hem"
+    ]
+  },
+  {
+    id: "zw-013",
+    name: "Classic Round Neck Tee",
+    price: 249,
+    originalPrice: 299,
+    rating: 4.7,
+    category: "Round Neck",
+    sizes: ["S", "M", "L", "XL"],
+    inStock: true,
+    stockCount: 4,
+    tag: "BEST SELLER",
+    image: "./images/roundneck-main.jpeg",
+    hoverImage: "./images/roundneck-3.jpeg",
+    images: [
+      "./images/roundneck-3.jpeg",
+    ],
+    description: "A timeless classic round neck t-shirt crafted from premium cotton. Perfect for everyday wear with a comfortable regular fit that suits all occasions.",
+    features: [
+      "240 GSM Premium Cotton",
+      "Classic round neck design",
+      "Pre-shrunk fabric",
+      "Double-stitched hem"
+    ]
+  },
+  {
+    id: "zw-014",
+    name: "Classic Round Neck Tee",
+    price: 249,
+    originalPrice: 299,
+    rating: 4.7,
+    category: "Round Neck",
+    sizes: ["S", "M", "L", "XL"],
+    inStock: true,
+    stockCount: 4,
+    tag: "BEST SELLER",
+    image: "./images/roundneck-main.jpeg",
+    hoverImage: "./images/roundneck-4.jpeg",
+    images: [
+      "./images/roundneck-4.jpeg",
+    ],
+    description: "A timeless classic round neck t-shirt crafted from premium cotton. Perfect for everyday wear with a comfortable regular fit that suits all occasions.",
+    features: [
+      "240 GSM Premium Cotton",
+      "Classic round neck design",
+      "Pre-shrunk fabric",
+      "Double-stitched hem"
+    ]
+  },
+  {
+    id: "zw-015",
     name: "Tecno Digital Print Tee",
     price: 199,
     originalPrice: 299,
@@ -279,10 +348,56 @@ const products = [
     stockCount: 10,
     tag: "NEW DROP",
     image: "./images/tecno-main.jpeg",
-    hoverImage: "./images/tecno-main.jpeg",
+    hoverImage: "./images/tecno-1.jpeg",
     images: [
       "./images/tecno-1.jpeg",
+    ],
+    description: "Futuristic digital print design inspired by technology and innovation. Features bold graphics with a modern aesthetic.",
+    features: [
+      "240 GSM Tech Cotton",
+      "Digital print technology",
+      "Modern tech-inspired design",
+      "Pre-shrunk fabric"
+    ]
+  },
+  {
+    id: "zw-016",
+    name: "Tecno Digital Print Tee",
+    price: 199,
+    originalPrice: 299,
+    rating: 4.7,
+    category: "Tecno",
+    sizes: ["M", "L", "XL", "XXL"],
+    inStock: true,
+    stockCount: 10,
+    tag: "NEW DROP",
+    image: "./images/tecno-main.jpeg",
+    hoverImage: "./images/tecno-2.jpeg",
+    images: [
       "./images/tecno-2.jpeg",
+    ],
+    description: "Futuristic digital print design inspired by technology and innovation. Features bold graphics with a modern aesthetic.",
+    features: [
+      "240 GSM Tech Cotton",
+      "Digital print technology",
+      "Modern tech-inspired design",
+      "Pre-shrunk fabric"
+    ]
+  },
+  {
+    id: "zw-017",
+    name: "Tecno Digital Print Tee",
+    price: 199,
+    originalPrice: 299,
+    rating: 4.7,
+    category: "Tecno",
+    sizes: ["M", "L", "XL", "XXL"],
+    inStock: true,
+    stockCount: 10,
+    tag: "NEW DROP",
+    image: "./images/tecno-main.jpeg",
+    hoverImage: "./images/tecno-3.jpeg",
+    images: [
       "./images/tecno-3.jpeg"
     ],
     description: "Futuristic digital print design inspired by technology and innovation. Features bold graphics with a modern aesthetic.",
@@ -293,9 +408,8 @@ const products = [
       "Pre-shrunk fabric"
     ]
   },
-  
   {
-    id: "zw-013",
+    id: "zw-018",
     name: "Tecno-Sport Performance Tee",
     price: 199,
     originalPrice: 299,
@@ -306,11 +420,80 @@ const products = [
     stockCount: 14,
     tag: "BEST SELLER",
     image: "./images/tecnosport-main.jpeg",
-    hoverImage: "./images/tecnosport-main.jpeg",
+    hoverImage: "./images/tecnosport-1.jpeg",
     images: [
-      "./images/tecnosport-1.jpeg",
-      "./images/tecnosport-2.jpeg",
-      "./images/tecnosport-3.jpeg",
+      "./images/tecnosport-1.jpeg"
+    ],
+    description: "High-performance sports tee with moisture-wicking technology. Designed for athletes and active individuals who demand the best.",
+    features: [
+      "260 GSM Performance Fabric",
+      "Moisture-wicking technology",
+      "Breathable mesh panels",
+      "Anti-odor treatment"
+    ]
+  },
+  {
+    id: "zw-019",
+    name: "Tecno-Sport Performance Tee",
+    price: 199,
+    originalPrice: 299,
+    rating: 4.9,
+    category: "Tecno-Sport",
+    sizes: ["M", "L", "XL", "XXL"],
+    inStock: true,
+    stockCount: 14,
+    tag: "BEST SELLER",
+    image: "./images/tecnosport-main.jpeg",
+    hoverImage: "./images/tecnosport-2.jpeg",
+    images: [
+      "./images/tecnosport-2.jpeg"
+    ],
+    description: "High-performance sports tee with moisture-wicking technology. Designed for athletes and active individuals who demand the best.",
+    features: [
+      "260 GSM Performance Fabric",
+      "Moisture-wicking technology",
+      "Breathable mesh panels",
+      "Anti-odor treatment"
+    ]
+  },
+  {
+    id: "zw-020",
+    name: "Tecno-Sport Performance Tee",
+    price: 199,
+    originalPrice: 299,
+    rating: 4.9,
+    category: "Tecno-Sport",
+    sizes: ["M", "L", "XL", "XXL"],
+    inStock: true,
+    stockCount: 14,
+    tag: "BEST SELLER",
+    image: "./images/tecnosport-main.jpeg",
+    hoverImage: "./images/tecnosport-3.jpeg",
+    images: [
+      "./images/tecnosport-3.jpeg"
+    ],
+    description: "High-performance sports tee with moisture-wicking technology. Designed for athletes and active individuals who demand the best.",
+    features: [
+      "260 GSM Performance Fabric",
+      "Moisture-wicking technology",
+      "Breathable mesh panels",
+      "Anti-odor treatment"
+    ]
+  },
+  {
+    id: "zw-021",
+    name: "Tecno-Sport Performance Tee",
+    price: 199,
+    originalPrice: 299,
+    rating: 4.9,
+    category: "Tecno-Sport",
+    sizes: ["M", "L", "XL", "XXL"],
+    inStock: true,
+    stockCount: 14,
+    tag: "BEST SELLER",
+    image: "./images/tecnosport-main.jpeg",
+    hoverImage: "./images/tecnosport-4.jpeg",
+    images: [
       "./images/tecnosport-4.jpeg"
     ],
     description: "High-performance sports tee with moisture-wicking technology. Designed for athletes and active individuals who demand the best.",

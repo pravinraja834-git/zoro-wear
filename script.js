@@ -670,67 +670,60 @@ window.openCheckoutModal = openCartCheckout;
    18. ORDER IMAGE GENERATION (Canvas)
    ===================================================== */
 function generateOrderImage(items, totalPrice, customerName, customerPhone, customerAddress) {
-  return new Promise((resolve) => {
-    const W = 600, PAD = 30;
-    const canvas = document.createElement('canvas');
+  return new Promise(function(resolve) {
+    var W = 600, PAD = 30;
+    var imgSize = 100;
+    var itemH = imgSize + 20;
+    var custH = 140;
+    var footerH = 55;
+    var hdrH = 60;
+
+    // Calculate total height first
+    var totalH = hdrH + 3 + 20;
+    totalH += items.length * (itemH + 10);
+    totalH += 5 + 20;
+    totalH += custH + 15;
+    totalH += 40;
+    totalH += footerH;
+
+    var canvas = document.createElement('canvas');
     canvas.width = W;
+    canvas.height = totalH;
     canvas.className = 'hidden-canvas';
     document.body.appendChild(canvas);
-    const ctx = canvas.getContext('2d');
+    var ctx = canvas.getContext('2d');
 
-    function drawRoundedRect(x, y, w, h, r, fill) {
-      ctx.beginPath();
-      ctx.moveTo(x + r, y);
-      ctx.lineTo(x + w - r, y);
-      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-      ctx.lineTo(x + w, y + h - r);
-      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-      ctx.lineTo(x + r, y + h);
-      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-      ctx.lineTo(x, y + r);
-      ctx.quadraticCurveTo(x, y, x + r, y);
-      ctx.closePath();
-      ctx.fillStyle = fill;
-      ctx.fill();
-    }
+    // White background FIRST
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, W, totalH);
 
-    let y = 0;
-
-    // Header bar
-    const hdrH = 60;
-    const hdrGrad = ctx.createLinearGradient(0, 0, W, 0);
+    // Header
+    var hdrGrad = ctx.createLinearGradient(0, 0, W, 0);
     hdrGrad.addColorStop(0, '#1a1a1a');
     hdrGrad.addColorStop(1, '#2a2a2a');
     ctx.fillStyle = hdrGrad;
     ctx.fillRect(0, 0, W, hdrH);
-
-    // Gold accent line
     ctx.fillStyle = '#D4AF37';
     ctx.fillRect(0, hdrH, W, 3);
-
-    // Brand text
     ctx.fillStyle = '#FFFFFF';
     ctx.font = 'bold 20px Arial, sans-serif';
     ctx.textAlign = 'left';
     ctx.fillText('ZORO WEAR', PAD, 38);
-
     ctx.fillStyle = '#D4AF37';
     ctx.font = '12px Arial, sans-serif';
     ctx.textAlign = 'right';
     ctx.fillText('Order Summary', W - PAD, 38);
 
-    y = hdrH + 3 + 20;
+    var y = hdrH + 3 + 20;
 
-    // Product items
-    const imgSize = 100;
-    const loadedImages = [];
-    let imagesReady = 0;
+    // Load product images then draw
+    var loadedImages = [];
+    var imagesReady = 0;
 
-    items.forEach((item, idx) => {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => { imagesReady++; if (imagesReady === items.length) drawAll(); };
-      img.onerror = () => { imagesReady++; if (imagesReady === items.length) drawAll(); };
+    items.forEach(function(item, idx) {
+      var img = new Image();
+      img.onload = function() { imagesReady++; if (imagesReady >= items.length) drawAll(); };
+      img.onerror = function() { imagesReady++; if (imagesReady >= items.length) drawAll(); };
       img.src = item.image;
       loadedImages[idx] = img;
     });
@@ -739,19 +732,15 @@ function generateOrderImage(items, totalPrice, customerName, customerPhone, cust
 
     function drawAll() {
       y = hdrH + 3 + 20;
-      const sectionBg = '#FAFAFA';
 
-      items.forEach((item, idx) => {
-        const itemH = imgSize + 20;
-        drawRoundedRect(PAD, y, W - PAD * 2, itemH, 10, sectionBg);
+      // Items
+      items.forEach(function(item, idx) {
+        fillRoundedRect(ctx, PAD, y, W - PAD * 2, itemH, 10, '#FAFAFA');
 
-        // Product image
-        const img = loadedImages[idx];
+        var img = loadedImages[idx];
         if (img && img.complete && img.naturalWidth) {
           ctx.save();
-          ctx.beginPath();
-          ctx.roundRect(PAD + 10, y + 10, imgSize, imgSize, 8);
-          ctx.clip();
+          clipRoundedRect(ctx, PAD + 10, y + 10, imgSize, imgSize, 8);
           ctx.drawImage(img, PAD + 10, y + 10, imgSize, imgSize);
           ctx.restore();
         } else {
@@ -763,26 +752,24 @@ function generateOrderImage(items, totalPrice, customerName, customerPhone, cust
           ctx.fillText('Image', PAD + 10 + imgSize / 2, y + 10 + imgSize / 2 + 4);
         }
 
-        // Product details
-        const txtX = PAD + 10 + imgSize + 15;
+        var txtX = PAD + 10 + imgSize + 15;
         ctx.fillStyle = '#1a1a1a';
         ctx.font = 'bold 15px Arial, sans-serif';
         ctx.textAlign = 'left';
-        const nameLines = wrapText(ctx, item.name, W - txtX - PAD - 10);
-        nameLines.forEach((line, li) => {
+        var nameLines = wrapText(ctx, item.name, W - txtX - PAD - 10);
+        nameLines.forEach(function(line, li) {
           ctx.fillText(line, txtX, y + 28 + li * 20);
         });
 
-        const detailY = y + 28 + nameLines.length * 20 + 6;
+        var detailY = y + 28 + nameLines.length * 20 + 6;
         ctx.fillStyle = '#666';
         ctx.font = '13px Arial, sans-serif';
-        ctx.fillText(`Size: ${item.size}  |  Qty: ${item.qty}`, txtX, detailY);
+        ctx.fillText('Size: ' + item.size + '  |  Qty: ' + item.qty, txtX, detailY);
 
         ctx.fillStyle = '#D4AF37';
         ctx.font = 'bold 16px Arial, sans-serif';
         ctx.textAlign = 'right';
-        ctx.fillText(`₹${(item.price * item.qty).toLocaleString()}`, W - PAD - 15, y + itemH - 12);
-
+        ctx.fillText('\u20B9' + (item.price * item.qty).toLocaleString(), W - PAD - 15, y + itemH - 12);
         y += itemH + 10;
       });
 
@@ -796,30 +783,25 @@ function generateOrderImage(items, totalPrice, customerName, customerPhone, cust
       ctx.stroke();
       y += 20;
 
-      // Customer details section
-      const custH = 130;
-      drawRoundedRect(PAD, y, W - PAD * 2, custH, 10, sectionBg);
-
+      // Customer details
+      fillRoundedRect(ctx, PAD, y, W - PAD * 2, custH, 10, '#FAFAFA');
       ctx.fillStyle = '#D4AF37';
       ctx.font = 'bold 12px Arial, sans-serif';
       ctx.textAlign = 'left';
       ctx.fillText('DELIVERY DETAILS', PAD + 18, y + 24);
-
       ctx.fillStyle = '#1a1a1a';
       ctx.font = '13px Arial, sans-serif';
-      ctx.fillText(`Name: ${customerName}`, PAD + 18, y + 50);
-      ctx.fillText(`Phone: ${customerPhone}`, PAD + 18, y + 72);
-
+      ctx.fillText('Name: ' + customerName, PAD + 18, y + 50);
+      ctx.fillText('Phone: ' + customerPhone, PAD + 18, y + 72);
       ctx.fillStyle = '#555';
       ctx.font = '12px Arial, sans-serif';
-      const addrLines = wrapText(ctx, `Address: ${customerAddress}`, W - PAD * 2 - 36);
-      addrLines.slice(0, 3).forEach((line, li) => {
+      var addrLines = wrapText(ctx, 'Address: ' + customerAddress, W - PAD * 2 - 36);
+      addrLines.slice(0, 3).forEach(function(line, li) {
         ctx.fillText(line, PAD + 18, y + 96 + li * 16);
       });
-
       y += custH + 15;
 
-      // Total row
+      // Total
       ctx.fillStyle = '#1a1a1a';
       ctx.font = 'bold 16px Arial, sans-serif';
       ctx.textAlign = 'left';
@@ -827,25 +809,19 @@ function generateOrderImage(items, totalPrice, customerName, customerPhone, cust
       ctx.fillStyle = '#D4AF37';
       ctx.font = 'bold 20px Arial, sans-serif';
       ctx.textAlign = 'right';
-      ctx.fillText(`₹${totalPrice.toLocaleString()}`, W - PAD, y + 18);
-
+      ctx.fillText('\u20B9' + totalPrice.toLocaleString(), W - PAD, y + 18);
       y += 40;
 
       // Footer
       ctx.fillStyle = '#1a1a1a';
-      ctx.fillRect(0, y, W, 50);
+      ctx.fillRect(0, y, W, footerH);
       ctx.fillStyle = '#D4AF37';
       ctx.font = '12px Arial, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('Thank you for shopping with ZORO Wear!', W / 2, y + 30);
 
-      y += 50;
-      canvas.height = y;
-
-      // Re-draw everything onto properly sized canvas
-      redrawAll(canvas, ctx, items, loadedImages, imgSize, W, PAD, hdrH, hdrGrad, sectionBg, customerName, customerPhone, customerAddress, totalPrice, y);
-
-      canvas.toBlob((blob) => {
+      // Export AFTER all drawing is done — do NOT change canvas size
+      canvas.toBlob(function(blob) {
         document.body.removeChild(canvas);
         resolve(blob);
       }, 'image/png');
@@ -853,107 +829,7 @@ function generateOrderImage(items, totalPrice, customerName, customerPhone, cust
   });
 }
 
-function redrawAll(canvas, ctx, items, loadedImages, imgSize, W, PAD, hdrH, hdrGrad, sectionBg, customerName, customerPhone, customerAddress, totalPrice, finalH) {
-  canvas.height = finalH;
-  ctx.clearRect(0, 0, W, finalH);
-
-  // Header
-  ctx.fillStyle = hdrGrad;
-  ctx.fillRect(0, 0, W, hdrH);
-  ctx.fillStyle = '#D4AF37';
-  ctx.fillRect(0, hdrH, W, 3);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = 'bold 20px Arial, sans-serif';
-  ctx.textAlign = 'left';
-  ctx.fillText('ZORO WEAR', PAD, 38);
-  ctx.fillStyle = '#D4AF37';
-  ctx.font = '12px Arial, sans-serif';
-  ctx.textAlign = 'right';
-  ctx.fillText('Order Summary', W - PAD, 38);
-
-  let y = hdrH + 3 + 20;
-  const itemH = imgSize + 20;
-
-  // Items
-  items.forEach((item, idx) => {
-    drawRoundedRectPath(ctx, PAD, y, W - PAD * 2, itemH, 10, sectionBg);
-    const img = loadedImages[idx];
-    if (img && img.complete && img.naturalWidth) {
-      ctx.save();
-      ctx.beginPath();
-      ctx.roundRect(PAD + 10, y + 10, imgSize, imgSize, 8);
-      ctx.clip();
-      ctx.drawImage(img, PAD + 10, y + 10, imgSize, imgSize);
-      ctx.restore();
-    } else {
-      ctx.fillStyle = '#E0E0E0';
-      ctx.fillRect(PAD + 10, y + 10, imgSize, imgSize);
-    }
-    const txtX = PAD + 10 + imgSize + 15;
-    ctx.fillStyle = '#1a1a1a';
-    ctx.font = 'bold 15px Arial, sans-serif';
-    ctx.textAlign = 'left';
-    const nameLines = wrapText(ctx, item.name, W - txtX - PAD - 10);
-    nameLines.forEach((line, li) => { ctx.fillText(line, txtX, y + 28 + li * 20); });
-    const detailY = y + 28 + nameLines.length * 20 + 6;
-    ctx.fillStyle = '#666';
-    ctx.font = '13px Arial, sans-serif';
-    ctx.fillText(`Size: ${item.size}  |  Qty: ${item.qty}`, txtX, detailY);
-    ctx.fillStyle = '#D4AF37';
-    ctx.font = 'bold 16px Arial, sans-serif';
-    ctx.textAlign = 'right';
-    ctx.fillText(`₹${(item.price * item.qty).toLocaleString()}`, W - PAD - 15, y + itemH - 12);
-    y += itemH + 10;
-  });
-
-  // Divider
-  y += 5;
-  ctx.strokeStyle = '#E0E0E0';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(PAD, y);
-  ctx.lineTo(W - PAD, y);
-  ctx.stroke();
-  y += 20;
-
-  // Customer details
-  const custH = 130;
-  drawRoundedRectPath(ctx, PAD, y, W - PAD * 2, custH, 10, sectionBg);
-  ctx.fillStyle = '#D4AF37';
-  ctx.font = 'bold 12px Arial, sans-serif';
-  ctx.textAlign = 'left';
-  ctx.fillText('DELIVERY DETAILS', PAD + 18, y + 24);
-  ctx.fillStyle = '#1a1a1a';
-  ctx.font = '13px Arial, sans-serif';
-  ctx.fillText(`Name: ${customerName}`, PAD + 18, y + 50);
-  ctx.fillText(`Phone: ${customerPhone}`, PAD + 18, y + 72);
-  ctx.fillStyle = '#555';
-  ctx.font = '12px Arial, sans-serif';
-  const addrLines = wrapText(ctx, `Address: ${customerAddress}`, W - PAD * 2 - 36);
-  addrLines.slice(0, 3).forEach((line, li) => { ctx.fillText(line, PAD + 18, y + 96 + li * 16); });
-  y += custH + 15;
-
-  // Total
-  ctx.fillStyle = '#1a1a1a';
-  ctx.font = 'bold 16px Arial, sans-serif';
-  ctx.textAlign = 'left';
-  ctx.fillText('Total', PAD, y + 16);
-  ctx.fillStyle = '#D4AF37';
-  ctx.font = 'bold 20px Arial, sans-serif';
-  ctx.textAlign = 'right';
-  ctx.fillText(`₹${totalPrice.toLocaleString()}`, W - PAD, y + 18);
-  y += 40;
-
-  // Footer
-  ctx.fillStyle = '#1a1a1a';
-  ctx.fillRect(0, y, W, 50);
-  ctx.fillStyle = '#D4AF37';
-  ctx.font = '12px Arial, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('Thank you for shopping with ZORO Wear!', W / 2, y + 30);
-}
-
-function drawRoundedRectPath(ctx, x, y, w, h, r, fill) {
+function fillRoundedRect(ctx, x, y, w, h, r, fill) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
   ctx.lineTo(x + w - r, y);
@@ -967,6 +843,21 @@ function drawRoundedRectPath(ctx, x, y, w, h, r, fill) {
   ctx.closePath();
   ctx.fillStyle = fill;
   ctx.fill();
+}
+
+function clipRoundedRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+  ctx.clip();
 }
 
 function wrapText(ctx, text, maxWidth) {
@@ -986,22 +877,58 @@ function wrapText(ctx, text, maxWidth) {
   return lines;
 }
 
-function downloadBlob(blob, filename) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
+function sendToAdminWhatsApp(blob, textMsg, closeFn) {
+  showToast('Uploading order image...');
+  var reader = new FileReader();
+  reader.onload = function() {
+    var binary = atob(reader.result.split(',')[1]);
+    var array = new Uint8Array(binary.length);
+    for (var i = 0; i < binary.length; i++) {
+      array[i] = binary.charCodeAt(i);
+    }
+    var file = new Blob([array], { type: 'image/png' });
+
+    var fd = new FormData();
+    fd.append('reqtype', 'fileupload');
+    fd.append('userhash', '');
+    fd.append('fileToUpload', file, 'order.png');
+
+    fetch('https://catbox.moe/user/api.php', {
+      method: 'POST',
+      body: fd
+    })
+    .then(function(res) { return res.text(); })
+    .then(function(url) {
+      url = url.trim();
+      if (url && url.indexOf('http') === 0) {
+        window.open('https://wa.me/916379956323?text=' + encodeURIComponent(textMsg + '\n\nOrder Image: ' + url), '_blank');
+      } else {
+        fallbackDownload(blob, textMsg, closeFn);
+      }
+      closeFn();
+    })
+    .catch(function() {
+      fallbackDownload(blob, textMsg, closeFn);
+    });
+  };
+  reader.onerror = function() {
+    fallbackDownload(blob, textMsg, closeFn);
+  };
+  reader.readAsDataURL(blob);
+}
+
+function fallbackDownload(blob, textMsg, closeFn) {
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
   a.href = url;
-  a.download = filename;
+  a.download = 'zoro-order.png';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-}
-
-function sendOrderToWhatsApp(blob, textMsg, closeFn) {
-  downloadBlob(blob, 'zoro-order.png');
-  showToast('Order image downloaded! Attach it to your WhatsApp message.');
-  setTimeout(() => {
-    window.open(`https://wa.me/916379956323?text=${encodeURIComponent(textMsg)}`, '_blank');
+  showToast('Image downloaded. Please attach it in WhatsApp.');
+  setTimeout(function() {
+    window.open('https://wa.me/916379956323?text=' + encodeURIComponent(textMsg), '_blank');
     closeFn();
   }, 500);
 }
@@ -1018,7 +945,7 @@ function submitOrder(e) {
   const textMsg = `Hello ZORO Wear,\n\nI want to order:\n\nProduct: ${orderProduct.name}\nSize: ${orderSize}\nQty: ${orderQty}\nPrice: ₹${total.toLocaleString()}\n\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\nPlease confirm my order.`;
 
   generateOrderImage(items, total, name, phone, address).then((blob) => {
-    sendOrderToWhatsApp(blob, textMsg, closeOrderModal);
+    sendToAdminWhatsApp(blob, textMsg, closeOrderModal);
   });
 }
 
@@ -1035,7 +962,7 @@ function submitCartOrder(e, lines, total) {
   const textMsg = `Hello ZORO Wear,\n\nI want to order:\n\n${cart.map(i => `${i.name} (Size: ${i.size}) x${i.qty} = ₹${(i.price * i.qty).toLocaleString()}`).join('\n')}\n\nTotal: ₹${totalNum.toLocaleString()}\n\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\nPlease confirm my order.`;
 
   generateOrderImage(items, totalNum, name, phone, address).then((blob) => {
-    sendOrderToWhatsApp(blob, textMsg, closeOrderModal);
+    sendToAdminWhatsApp(blob, textMsg, closeOrderModal);
   });
 }
 
