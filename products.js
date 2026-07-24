@@ -180,7 +180,7 @@ const products = [
     stockCount: 7,
     tag: "BEST SELLER",
     image: "./images/collartshirt.jpeg",
-    hoverImage: "./images/collortshirt.jpeg",
+    hoverImage: "./images/collartshirt.jpeg",
     images: [
       "./images/collartshirt.jpeg"
     ],
