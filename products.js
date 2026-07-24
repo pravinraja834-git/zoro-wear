@@ -251,7 +251,7 @@ const products = [
     inStock: true,
     stockCount: 4,
     tag: "BEST SELLER",
-    image: "./images/roundneck-main.jpeg",
+    image: "./images/roundneck-1.jpeg",
     hoverImage: "./images/roundneck-1.jpeg",
     images: [
       "./images/roundneck-1.jpeg",
@@ -275,7 +275,7 @@ const products = [
     inStock: true,
     stockCount: 4,
     tag: "BEST SELLER",
-    image: "./images/roundneck-main.jpeg",
+    image: "./images/roundneck-2.jpeg",
     hoverImage: "./images/roundneck-2.jpeg",
     images: [
       "./images/roundneck-2.jpeg",
@@ -299,7 +299,7 @@ const products = [
     inStock: true,
     stockCount: 4,
     tag: "BEST SELLER",
-    image: "./images/roundneck-main.jpeg",
+    image: "./images/roundneck-3.jpeg",
     hoverImage: "./images/roundneck-3.jpeg",
     images: [
       "./images/roundneck-3.jpeg",
@@ -323,7 +323,7 @@ const products = [
     inStock: true,
     stockCount: 4,
     tag: "BEST SELLER",
-    image: "./images/roundneck-main.jpeg",
+    image: "./images/roundneck-4.jpeg",
     hoverImage: "./images/roundneck-4.jpeg",
     images: [
       "./images/roundneck-4.jpeg",
@@ -347,7 +347,7 @@ const products = [
     inStock: true,
     stockCount: 10,
     tag: "NEW DROP",
-    image: "./images/tecno-main.jpeg",
+    image: "./images/tecno-1.jpeg",
     hoverImage: "./images/tecno-1.jpeg",
     images: [
       "./images/tecno-1.jpeg",
@@ -371,7 +371,7 @@ const products = [
     inStock: true,
     stockCount: 10,
     tag: "NEW DROP",
-    image: "./images/tecno-main.jpeg",
+    image: "./images/tecno-2.jpeg",
     hoverImage: "./images/tecno-2.jpeg",
     images: [
       "./images/tecno-2.jpeg",
@@ -395,7 +395,7 @@ const products = [
     inStock: true,
     stockCount: 10,
     tag: "NEW DROP",
-    image: "./images/tecno-main.jpeg",
+    image: "./images/tecno-3.jpeg",
     hoverImage: "./images/tecno-3.jpeg",
     images: [
       "./images/tecno-3.jpeg"
@@ -419,7 +419,7 @@ const products = [
     inStock: true,
     stockCount: 14,
     tag: "BEST SELLER",
-    image: "./images/tecnosport-main.jpeg",
+    image: "./images/tecnosport-1.jpeg",
     hoverImage: "./images/tecnosport-1.jpeg",
     images: [
       "./images/tecnosport-1.jpeg"
@@ -443,7 +443,7 @@ const products = [
     inStock: true,
     stockCount: 14,
     tag: "BEST SELLER",
-    image: "./images/tecnosport-main.jpeg",
+    image: "./images/tecnosport-2.jpeg",
     hoverImage: "./images/tecnosport-2.jpeg",
     images: [
       "./images/tecnosport-2.jpeg"
@@ -467,7 +467,7 @@ const products = [
     inStock: true,
     stockCount: 14,
     tag: "BEST SELLER",
-    image: "./images/tecnosport-main.jpeg",
+    image: "./images/tecnosport-3.jpeg",
     hoverImage: "./images/tecnosport-3.jpeg",
     images: [
       "./images/tecnosport-3.jpeg"
@@ -491,7 +491,7 @@ const products = [
     inStock: true,
     stockCount: 14,
     tag: "BEST SELLER",
-    image: "./images/tecnosport-main.jpeg",
+    image: "./images/tecnosport-4.jpeg",
     hoverImage: "./images/tecnosport-4.jpeg",
     images: [
       "./images/tecnosport-4.jpeg"
